@@ -1,2 +1,5 @@
+import "meta"
+
+# Entry point
 when isMainModule:
-  echo("AAA")
+  echo("AAA version " & meta.version)
