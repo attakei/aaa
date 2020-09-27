@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - master
+    # TODO: specify after stabilize repository 
+    # paths:
+    #   - src/**
+    #   - tests/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache nimble
+        id: cache-nimble
+        uses: actions/cache@v1
+        with:
+          path: ~/.nimble
+          key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
+        if: runner.os != 'Windows'
+      - uses: jiro4989/setup-nim-action@v1
+        with:
+          nim-version: 1.2.0
+      - name: Test
+        run: nimble test -Y
