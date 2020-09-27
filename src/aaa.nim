@@ -1,5 +1,10 @@
+import cligen
+import "commands/info"
 import "meta"
 
 # Entry point
 when isMainModule:
-  echo("AAA version " & meta.version)
+  clCfg.version = meta.version
+  dispatchMulti([
+    info.main, cmdName = "info"
+  ])
