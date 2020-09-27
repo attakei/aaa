@@ -10,5 +10,5 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 
 # 2 space indentation
-[*.{nim,nimble,nims,rst}]
+[*.{nim,nimble,nims,rst,yml}]
 indent_size = 2
