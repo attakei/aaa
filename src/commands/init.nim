@@ -1,5 +1,7 @@
 ## "info" sub command behavior
+import os
 import terminal
+import "../config"
 
 
 template withTerminalStyle(
@@ -29,3 +31,18 @@ proc main*(output: string): int =
     echo("============================")
     echo("Start initialize aaa configurations.")
     echo("This configuration will save to '" & output & "'")
+  echo("")
+
+  let outputPath = os.absolutePath(output)
+  if not parentDir(outputPath).existsDir():
+    withTerminalStyle(fgRed):
+      echo("Output directory must be already exists.")
+      return 1
+  if outputPath.existsFile():
+    withTerminalStyle(fgRed):
+      echo("Config file is already exists!")
+      return 1
+
+  # Write phase
+  var cfg = createConfig()
+  cfg.saveTo(outputPath)
