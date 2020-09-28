@@ -1,11 +1,10 @@
 on:
   push:
-    branches:
-      - master
-    # TODO: specify after stabilize repository 
-    # paths:
-    #   - src/**
-    #   - tests/**
+    paths:
+      - src/**
+      - tests/**
+      - config.nims
+      - aaa.nimble
 
 jobs:
   build:
