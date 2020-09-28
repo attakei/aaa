@@ -1,4 +1,5 @@
 import parsecfg
+import "meta"
 
 
 type
@@ -12,6 +13,7 @@ proc version*(c: AConfig): string {.inline.} = c.version
 
 proc createConfig*(): AConfig =
   result = AConfig()
+  result.version = meta.version
 
 
 proc loadConfig*(filepath: string): AConfig =
@@ -24,4 +26,5 @@ proc loadConfig*(filepath: string): AConfig =
 proc saveTo*(cfg: AConfig, filepath: string) =
   ## Save config to local file by parsecfg
   var dict = newConfig()
+  dict.setSectionKey("aaa", "version", cfg.version)
   dict.writeConfig(filepath)
