@@ -1,11 +1,14 @@
+import options
 import parsecfg
 import "meta"
+import "services/teratail/config" as teratail_config
 
 
 type
   AConfig* = ref object
     ## Configurations
     version: string
+    teratailConfig: Option[TeratailConfig]
 
 
 proc version*(c: AConfig): string {.inline.} = c.version
@@ -16,6 +19,7 @@ proc createConfig*(): AConfig =
   ## Create new config.
   result = AConfig()
   result.version = meta.version
+  result.teratailConfig = none(TeratailConfig)
 
 
 proc loadConfig*(filepath: string): AConfig =
