@@ -4,14 +4,16 @@ import "meta"
 
 type
   AConfig* = ref object
+    ## Configurations
     version: string
 
 
 proc version*(c: AConfig): string {.inline.} = c.version
-## Read-only accessor for AConfig.version.
+  ## Read-only accessor for AConfig.version.
 
 
 proc createConfig*(): AConfig =
+  ## Create new config.
   result = AConfig()
   result.version = meta.version
 
