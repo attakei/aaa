@@ -3,10 +3,22 @@ import parsecfg
 
 type
   AConfig* = ref object
+    version: string
+
+
+proc version*(c: AConfig): string {.inline.} = c.version
+## Read-only accessor for AConfig.version.
 
 
 proc createConfig*(): AConfig =
   result = AConfig()
+
+
+proc loadConfig*(filepath: string): AConfig =
+  ## Load config struct from specified filepath.
+  result = AConfig()
+  let dict = parsecfg.loadConfig(filepath)
+  result.version = dict.getSectionValue("aaa", "version")
 
 
 proc saveTo*(cfg: AConfig, filepath: string) =
