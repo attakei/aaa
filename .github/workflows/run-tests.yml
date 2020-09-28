@@ -1,6 +1,7 @@
 on:
   push:
     paths:
+      - .github/workflows/**
       - src/**
       - tests/**
       - config.nims
@@ -22,4 +23,6 @@ jobs:
         with:
           nim-version: 1.2.0
       - name: Test
-        run: nimble test -Y
+        run: |
+          mkdir -p var/tests
+          nimble test -Y
