@@ -55,3 +55,5 @@ proc main*(output: string): int =
   # Save to file
   var cfg = createConfig()
   cfg.saveTo(outputPath)
+  withTerminalStyle(fgGreen):
+    echo("Finished initialize!!")
