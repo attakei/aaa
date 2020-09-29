@@ -2,10 +2,10 @@
 
 version       = "0.1.0"
 author        = "Kazuya Takei"
-description   = "Any Activities Aggregator"
+description   = "Tech Activities Aggregator"
 license       = "Apache-2.0"
 srcDir        = "src"
-bin           = @["aaa"]
+bin           = @["tact"]
 binDir        = "bin"
 
 

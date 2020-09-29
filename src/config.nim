@@ -22,11 +22,11 @@ proc loadConfig*(filepath: string): AConfig =
   ## Load config struct from specified filepath.
   result = AConfig()
   let dict = parsecfg.loadConfig(filepath)
-  result.version = dict.getSectionValue("aaa", "version")
+  result.version = dict.getSectionValue("tact", "version")
 
 
 proc saveTo*(cfg: AConfig, filepath: string) =
   ## Save config to local file by parsecfg
   var dict = newConfig()
-  dict.setSectionKey("aaa", "version", cfg.version)
+  dict.setSectionKey("tact", "version", cfg.version)
   dict.writeConfig(filepath)

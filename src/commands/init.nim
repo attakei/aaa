@@ -30,14 +30,13 @@ proc main*(output: string): int =
 
   # Display welcome message
   withTerminalStyle(fgGreen):
-    echo("============================")
-    echo("      ___     ___     ___   ")
-    echo("     /   |   /   |   /   |  ")
-    echo("    / /| |  / /| |  / /| |  ")
-    echo("   / ___ | / ___ | / ___ |  ")
-    echo("  /_/  |_|/_/  |_|/_/  |_|  ")
-    echo("============================")
-    echo("Start initialize aaa configurations.")
+    echo(r"  _             _    ")
+    echo(r" | |_ __ _  ___| |_  ")
+    echo(r" | __/ _` |/ __| __| ")
+    echo(r" | || (_| | (__| |_  ")
+    echo(r"  \__\__,_|\___|\__| ")
+    echo(r"=====================")
+    echo("Start initialize tact configurations.")
     echo("This configuration will save to '" & output & "'")
   echo("")
 

@@ -2,7 +2,7 @@
 ## ===============================
 ## 
 ## This module has role only to use .nimble file as component.
-## If you update ``aaa.nimble``, must edit this to adjust behavior.
+## If you update ``tact.nimble``, must edit this to adjust behavior.
 var
   version*: string
   author: string
@@ -14,4 +14,4 @@ var
 
 proc requires(deps: varargs[string]) = discard
 
-include "../aaa.nimble"
+include "../tact.nimble"

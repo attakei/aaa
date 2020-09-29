@@ -1,7 +1,7 @@
-AAA
-===
+tact
+====
 
-Any Activities Aggregator
+Tech ACTivities aggregator
 
 .. note::
 
@@ -17,8 +17,8 @@ Tech系サービスにおけるアクティビティをまとめて収集して�
 使い方
 ------
 
-1. ``aaa init`` で初期化を行う
-2. ``aaa run`` でいろいろやる
+1. ``tact init`` で初期化を行う
+2. ``tact run`` でいろいろやる
 
 To Do
 -----
