@@ -17,7 +17,9 @@ suite "ApiClient.getXxx":
   test "questions":
     let resp = apiClient.getQuestions("teratail")
     check len(resp.items) == 2
+    check not resp.hasNext()
 
   test "replies":
     let resp = apiClient.getReplies("teratail")
     check len(resp.items) == 2
+    check not resp.hasNext()

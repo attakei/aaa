@@ -24,6 +24,10 @@ proc endpoint*(self: ApiClient): string {.inline.} = self.endpoint
 
 proc items*[T](self: ApiResponse[T]): seq[T] {.inline.} = self.items 
 
+proc hasNext*(self: ApiResponse): bool {.inline.} = (self.page < self.totalPage)
+
+proc nextPage*(self: ApiResponse): int {.inline.} = (self.page + 1)
+
 
 proc newApiClient*(): ApiClient =
   result = ApiClient(
@@ -41,9 +45,9 @@ proc request(self: ApiClient, urlPath: string): JsonNode =
   return parseJson(resp.body)
 
 
-proc getQuestions*(self: ApiClient, displayName: string): ApiResponse[Question] =
+proc getQuestions*(self: ApiClient, displayName: string, page: int): ApiResponse[Question] =
   result = ApiResponse[Question](items: @[])
-  let urlPath = "/users/" & displayName & "/questions"
+  let urlPath = "/users/" & displayName & "/questions?page=" & $page
   let data = self.request(urlPath)
   result.page = data["meta"]["page"].getInt()
   result.totalPage = data["meta"]["total_page"].getInt()
@@ -55,9 +59,13 @@ proc getQuestions*(self: ApiClient, displayName: string): ApiResponse[Question] 
     ))
 
 
-proc getReplies*(self: ApiClient, displayName: string): ApiResponse[Reply] =
+proc getQuestions*(self: ApiClient, displayName: string): ApiResponse[Question] =
+  result = self.getQuestions(displayName, 1)
+
+
+proc getReplies*(self: ApiClient, displayName: string, page: int): ApiResponse[Reply] =
   result = ApiResponse[Reply](items: @[])
-  let urlPath = "/users/" & displayName & "/replies"
+  let urlPath = "/users/" & displayName & "/replies?page=" & $page
   let data = self.request(urlPath)
   result.page = data["meta"]["page"].getInt()
   result.totalPage = data["meta"]["total_page"].getInt()
@@ -66,3 +74,7 @@ proc getReplies*(self: ApiClient, displayName: string): ApiResponse[Reply] =
       q["question_id"].getInt(),
       times.parse(q["created"].getStr(), FORMAT_OF_TIMESTMAP),
     ))
+
+
+proc getReplies*(self: ApiClient, displayName: string): ApiResponse[Reply] =
+  result = self.getReplies(displayName, 1)
