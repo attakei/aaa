@@ -26,3 +26,23 @@ suite "TeratailConfig from dict":
     check cfg.isNone() == false
     check cfg.get().username == "example"
     check cfg.get().apiKey.get() == "example-token"
+
+
+suite "TeratailConfig to dict":
+  test "Only username":
+    var frm = newConfig()
+    frm.setSectionKey("teratail", "username", "example")
+    var dict = newConfig()
+    let cfg = fromDict(frm)
+    cfg.get().toDict(dict)
+    check dict.getSectionValue("teratail", "username") == "example"
+
+  test "With api-key":
+    var frm = newConfig()
+    frm.setSectionKey("teratail", "username", "example")
+    frm.setSectionKey("teratail", "apikey", "example-token")
+    var dict = newConfig()
+    let cfg = fromDict(frm)
+    cfg.get().toDict(dict)
+    check dict.getSectionValue("teratail", "username") == "example"
+    check dict.getSectionValue("teratail", "apikey") == "example-token"

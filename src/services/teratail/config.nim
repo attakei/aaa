@@ -25,3 +25,9 @@ proc fromDict*(dict: Config): Option[TeratailConfig] =
     return some(TeratailConfig(username: username, apiKey: none(string)))
   else:
     return some(TeratailConfig(username: username, apiKey: some(apiKey)))
+
+
+proc toDict*(self: TeratailConfig, dict: var Config) =
+  dict.setSectionKey("teratail", "username", self.username)
+  if self.apiKey.isSome:
+    dict.setSectionKey("teratail", "apikey", self.apiKey.get())
