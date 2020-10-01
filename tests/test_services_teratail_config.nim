@@ -1,6 +1,8 @@
 import options
+import os
 import parsecfg
 import unittest
+import "config" as root_config
 import "services/teratail/config"
 
 
@@ -46,3 +48,10 @@ suite "TeratailConfig to dict":
     cfg.get().toDict(dict)
     check dict.getSectionValue("teratail", "username") == "example"
     check dict.getSectionValue("teratail", "apikey") == "example-token"
+
+
+suite "From file":
+  test "Nodata":
+    let src = getEnv("NIMBLE_TEST_DIR") & DirSep & "testdata/regular.cfg"
+    let cfg = root_config.loadConfig(src)
+    check cfg.teratail.isNone()
