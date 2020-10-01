@@ -1,18 +1,20 @@
 ## API handler module
 import httpclient
 import json
+import options
 import times
 import "./types"
 
 
 const
-  PRODUCTION_ENDPOINT = "https://teratail.com/api/v1"
+  DEFAULT_ENDPOINT* = "https://teratail.com/api/v1"
   FORMAT_OF_TIMESTMAP = initTimeFormat("yyyy-MM-dd HH:mm:ss")
 
 type
   ApiClient* = ref object
     ## API control client
     endpoint: string  ## URL endpont (base)
+    apiKey: Option[string]  ## API Key(optional)
   ApiResponse*[T] = ref object
     ## Package of response component
     page: int
@@ -31,7 +33,7 @@ proc nextPage*(self: ApiResponse): int {.inline.} = (self.page + 1)
 
 proc newApiClient*(): ApiClient =
   result = ApiClient(
-    endpoint: PRODUCTION_ENDPOINT,
+    endpoint: DEFAULT_ENDPOINT,
   )
 
 proc newApiClient*(endpoint: string): ApiClient =
@@ -39,8 +41,18 @@ proc newApiClient*(endpoint: string): ApiClient =
     endpoint: endpoint,
   )
 
+proc newApiClient*(endpoint: string, apiKey: string): ApiClient =
+  result = ApiClient(
+    endpoint: endpoint,
+    apiKey: some(apiKey),
+  )
+
+
 proc request(self: ApiClient, urlPath: string): JsonNode =
+  ## Request to API. If client hase API-key, set to header.
   let client = newHttpClient()
+  if self.apiKey.isSome:
+    client.headers = newHttpHeaders({ "Authorization": "Bearer " & self.apiKey.get() })
   let resp = client.request(self.endpoint & urlPath, HttpGet)
   return parseJson(resp.body)
 

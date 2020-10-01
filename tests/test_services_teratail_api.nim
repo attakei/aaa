@@ -10,6 +10,10 @@ suite "API Client":
     let apiClient = newApiClient("http://example.com")
     check apiClient.endpoint == "http://example.com"
 
+  test "Add API-Key":
+    let apiClient = newApiClient(DEFAULT_ENDPOINT, "example")
+    check apiClient.endpoint == "https://teratail.com/api/v1"
+
 suite "ApiClient.getXxx":
   let endpoint = "https://private-anon-d708d0e3a4-teratailv1.apiary-mock.com/api/v1"
   let apiClient = newApiClient(endpoint)
