@@ -14,6 +14,9 @@ type Activity* = ref object
   body: string          ## JSON-formated string of activity body
 
 
+proc timestamp*(self: Activity): DateTime {.inline.} = self.timestamp
+
+
 proc newActivity*(class: string, timestamp: DateTime, link: string, body: string): Activity =
   ## Crete new activity object
   result = Activity(
