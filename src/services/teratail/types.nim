@@ -1,7 +1,7 @@
 ## API handler module
 import marshal
 import times
-import "../../core/types/activity"
+import "../../core/models/activity"
 
 
 type

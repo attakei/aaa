@@ -1,7 +1,7 @@
 import strutils
 import times
 import unittest
-import "core/types/activity"
+import "core/models/activity"
 import "services/teratail/types"
 
 

@@ -1,6 +1,7 @@
 import times
 import unittest
-import "core/types/activity"
+import norm/sqlite
+import "core/models/activity"
 
 
 suite "Activity compare":

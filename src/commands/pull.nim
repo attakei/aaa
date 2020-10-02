@@ -8,7 +8,7 @@ import options
 import sequtils
 import times
 import "../config"
-import "../core/types/activity"
+import "../core/models/activity"
 import "../services/teratail/action" as teratail_action
 
 

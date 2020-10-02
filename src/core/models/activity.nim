@@ -1,12 +1,13 @@
 ## Activity type struct
 import times
+import norm/model
 
 
 const
   FORMAT_AS_TIMESTAMP* = initTimeFormat("YYYY-MM-dd HH:mm:ss")
 
 
-type Activity* = ref object
+type Activity* = ref object of Model
   ## Activity of tech actions
   class: string         ## Activity class(for services)
   timestamp: DateTime   ## Activity date

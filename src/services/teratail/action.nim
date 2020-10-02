@@ -4,7 +4,7 @@ import times
 import "./api"
 import "./config"
 import "./types"
-import "../../core/types/activity"
+import "../../core/models/activity"
 
 
 type TeratailRunner* = ref object
