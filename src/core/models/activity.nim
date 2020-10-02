@@ -47,16 +47,18 @@ proc createTable*(self: Activity, db: DbConn) =
   db.createTables(self)
 
 
-proc add*(self: var Activity, db: DbConn) =
+proc save*(self: Activity, db: DbConn): Activity =
   ## Upsert activity for database
+  var pass: Activity
+  shallowCopy pass, self
   try:
     let cond = "Activity.class = ? AND Activity.timestamp = ?"
     var fromDb = Activity()
     db.select(fromDb, cond, self.class, self.timestamp)
-    self.id = fromDb.id
-    db.delete(fromDb)
+    pass.id = fromDb.id
+    db.update(pass)
   except KeyError as err:
     if err.msg != "Record not found":
       raise err
-  finally:
-    db.insert(self)
+    db.insert(pass)
+  return pass

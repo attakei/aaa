@@ -1,4 +1,3 @@
-import options
 import times
 import unittest
 import norm/[model,sqlite]
@@ -35,7 +34,7 @@ suite "Activity summary":
     check act.summary == "Dummy at 2020-01-01 00:00:00"
 
 
-suite "Activity adding":
+suite "Activity saveing":
   setup:
     let db = open(":memory:", "", "", "")
     newActivity().createTable(db)
@@ -45,7 +44,7 @@ suite "Activity adding":
       "Dummy", times.parse("2020-01-01 00:00:00", FORMAT_AS_TIMESTAMP),
       "-", "{}"
     )
-    act.add(db)
+    discard act.save(db)
     check act.id == 1
 
   test "Record override":
@@ -53,12 +52,12 @@ suite "Activity adding":
       "Dummy", times.parse("2020-01-01 00:00:00", FORMAT_AS_TIMESTAMP),
       "-", "{}"
     )
-    act1.add(db)
+    discard act1.save(db)
     var act2 = newActivity(
       "Dummy", times.parse("2020-01-01 00:00:00", FORMAT_AS_TIMESTAMP),
       "--", "{}"
     )
-    act2.add(db)
+    discard act2.save(db)
     check act2.id == 1
 
   test "Record multi":
@@ -66,12 +65,29 @@ suite "Activity adding":
       "Dummy", times.parse("2020-01-01 00:00:00", FORMAT_AS_TIMESTAMP),
       "-", "{}"
     )
-    act1.add(db)
+    discard act1.save(db)
     var act2 = newActivity(
       "Dummy", times.parse("2020-01-01 00:00:01", FORMAT_AS_TIMESTAMP),
       "--", "{}"
     )
-    act2.add(db)
+    discard act2.save(db)
     var acts = @[newActivity()]
     db.select(acts, "1=1")
     check len(acts) == 2
+
+  test "Record multi from seq":
+    var acts: seq[Activity] = @[
+      newActivity(
+        "Dummy", times.parse("2020-01-01 00:00:00", FORMAT_AS_TIMESTAMP),
+        "-", "{}"
+      ),
+      newActivity(
+        "Dummy", times.parse("2020-01-01 00:00:01", FORMAT_AS_TIMESTAMP),
+        "-", "{}"
+      )
+    ]
+    for a in acts:
+      discard a.save(db)
+    var saved = @[newActivity()]
+    db.select(saved, "1=1")
+    check len(saved) == 2
