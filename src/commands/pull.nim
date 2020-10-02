@@ -5,8 +5,10 @@
 ## 
 ## If you want to know arguments in command, see ``main()``
 import options
+import os
 import sequtils
 import times
+import norm/sqlite
 import "../config"
 import "../core/models/activity"
 import "../services/teratail/action" as teratail_action
@@ -35,8 +37,12 @@ proc main*(config: string, date: string = ""): int =
       acts = concat(acts, runner.fetch(targetDate))
     echo("OK")
 
+  # Save activities
+  os.putEnv("DB_HOST", cfg.database)
+  withDb:
+    acts = acts.mapIt(it.save(db))
+
   # Display result
   echo($len(acts) & " activities")
   discard cfg
   return 0
-  
