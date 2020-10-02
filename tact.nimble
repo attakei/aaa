@@ -12,6 +12,6 @@ binDir        = "bin"
 
 # Dependencies
 
-requires "nim >= 1.2.0"
+requires "nim >= 1.2.6"
 requires "cligen >= 1.2.2"
 requires "norm >= 2.1.5"
