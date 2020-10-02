@@ -1,6 +1,6 @@
 ## Activity type struct
 import times
-import norm/model
+import norm/[model,sqlite]
 
 
 const
@@ -18,7 +18,12 @@ type Activity* = ref object of Model
 proc timestamp*(self: Activity): DateTime {.inline.} = self.timestamp
 
 
-proc newActivity*(class: string, timestamp: DateTime, link: string, body: string): Activity =
+proc newActivity*(
+  class: string = "",
+  timestamp: DateTime = now(),
+  link: string = "",
+  body: string = "",
+): Activity =
   ## Crete new activity object
   result = Activity(
     class: class,
@@ -36,3 +41,22 @@ proc cmp*(x, y: Activity): int =
 proc summary*(self: Activity): string =
   ## Short summary of activity (display class and timestamp)
   result = self.class & " at " & self.timestamp.format(FORMAT_AS_TIMESTAMP)
+
+
+proc createTable*(self: Activity, db: DbConn) =
+  db.createTables(self)
+
+
+proc add*(self: var Activity, db: DbConn) =
+  ## Upsert activity for database
+  try:
+    let cond = "Activity.class = ? AND Activity.timestamp = ?"
+    var fromDb = Activity()
+    db.select(fromDb, cond, self.class, self.timestamp)
+    self.id = fromDb.id
+    db.delete(fromDb)
+  except KeyError as err:
+    if err.msg != "Record not found":
+      raise err
+  finally:
+    db.insert(self)
