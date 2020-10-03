@@ -3,6 +3,7 @@ import os
 import parsecfg
 import "meta"
 import "services/teratail/config" as teratail_config
+import "services/pixela/config" as pixela_config
 
 
 type
@@ -11,6 +12,7 @@ type
     version: string
     database: string
     teratail: Option[TeratailConfig]
+    pixela: Option[PixelaConfig]
 
 
 proc version*(c: AConfig): string {.inline.} = c.version
@@ -19,6 +21,8 @@ proc version*(c: AConfig): string {.inline.} = c.version
 proc database*(c: AConfig): string {.inline.} = c.database
 
 proc teratail*(self: AConfig): Option[TeratailConfig] {.inline.} = self.teratail
+
+proc pixela*(self: AConfig): Option[PixelaConfig] {.inline.} = self.pixela
 
 
 proc createConfig*(outputDir: string): AConfig =
@@ -35,6 +39,7 @@ proc loadConfig*(filepath: string): AConfig =
   result.version = dict.getSectionValue("tact", "version")
   result.database = dict.getSectionValue("tact", "database")
   result.teratail = teratail_config.fromDict(dict)
+  result.pixela = pixela_config.fromDict(dict)
 
 proc saveTo*(cfg: AConfig, filepath: string) =
   ## Save config to local file by parsecfg
@@ -43,4 +48,6 @@ proc saveTo*(cfg: AConfig, filepath: string) =
   dict.setSectionKey("tact", "database", cfg.database)
   if cfg.teratail.isSome:
     cfg.teratail.get.toDict(dict)
+  if cfg.pixela.isSome:
+    cfg.pixela.get.toDict(dict)
   dict.writeConfig(filepath)
