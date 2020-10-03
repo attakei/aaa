@@ -42,6 +42,6 @@ proc postPixel*(self: ApiClient, graphId: string, date: DateTime, quantity: int)
   let urlPath = "/users/" & self.username & "/graphs/" & graphId
   let payload = %*{
     "date": date.format(DATE_FORMAT),
-    "quantity": quantity,
+    "quantity": $quantity,
   }
   discard self.request(urlPath, $payload)
