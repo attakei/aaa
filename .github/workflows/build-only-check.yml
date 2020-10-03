@@ -20,6 +20,6 @@ jobs:
         if: runner.os != 'Windows'
       - uses: jiro4989/setup-nim-action@v1
         with:
-          nim-version: 1.2.0
+          nim-version: 1.2.6
       - name: Build
         run: nimble build -Y
